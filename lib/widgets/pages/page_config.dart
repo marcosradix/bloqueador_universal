@@ -14,12 +14,15 @@ class _PageConfigState extends State<PageConfig> {
   final TextEditingController _nomeBotao = TextEditingController();
   final TextEditingController _comando = TextEditingController();
   final TextEditingController _telefone = TextEditingController();
+  bool isSwitched = false;  
 
   @override
   Widget build(BuildContext context) {
     return Form(
         key: _formKey,
-        child: Column(children: <Widget>[
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
           Container(
             width: double.infinity,
             child: TextFormField(
@@ -31,6 +34,26 @@ class _PageConfigState extends State<PageConfig> {
               controller: _telefone,
             ),
           ),
+         Row(
+           children: <Widget>[
+             Text("Atualizar"),
+            SizedBox(),
+             Align(
+               alignment: Alignment.centerLeft,
+               child: Switch(
+                value: isSwitched,
+                onChanged: (value){
+                  setState(() {
+                    isSwitched=value;
+                    print(isSwitched);
+                  });
+                },
+                activeTrackColor: Colors.lightGreenAccent,
+                activeColor: Colors.green,
+        ),
+             ),
+           ],
+         ),
           Container(
             width: double.infinity,
             child: TextFormField(
@@ -60,7 +83,14 @@ class _PageConfigState extends State<PageConfig> {
               width: double.infinity,
               child: RaisedButton(
                 onPressed: () {
+                  if(isSwitched){
+                    if(_nomeBotao.text.isNotEmpty && _comando.text.isNotEmpty){
+                    configuration[_nomeBotao.text] = _comando.text;
+                    }
+                  }else{
                      configuration[_nomeBotao.text] = _comando.text;
+
+                  }
                     _nomeBotao.clear();
                     _comando.clear();
                 },
@@ -79,7 +109,30 @@ class _PageConfigState extends State<PageConfig> {
               width: double.infinity,
               child: RaisedButton(
                 onPressed: () {
+                  if(isSwitched){
+                    if(_telefone.text.isNotEmpty){
+                      configuration["telefone"] = _telefone.text;
+                    }
+
+                    SharedPreferencesUtil.load().then((data) {
+                     
+                    Map<String, dynamic> newMap = {
+                          ...jsonDecode(data),
+                          ...configuration,
+                    };
+
+                    SharedPreferencesUtil.create(jsonEncode(newMap))
+                      .then((value) {
+                    setState(() {
+                      _nomeBotao.clear();
+                      _comando.clear();
+                      _telefone.clear();
+                    });
+                  });
+                  });
+                  }else{
                   configuration["telefone"] = _telefone.text;
+                  }
                   SharedPreferencesUtil.remove();
                   SharedPreferencesUtil.create(jsonEncode(configuration))
                       .then((value) {

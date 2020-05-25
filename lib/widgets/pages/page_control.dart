@@ -39,7 +39,13 @@ Random random;
   @override
   Widget build(BuildContext context) {
     return  configuration == null ? Container(child: Center(child:Text("Sem configuração")),) 
-    :  getTextWidgets(configuration.keys.toList());
+    :  Column(
+      children: <Widget>[
+        Text("Telefone: ${configuration['telefone']}"),
+        SizedBox(height: 3,),
+        getTextWidgets(configuration.keys.toList())
+      ],
+      );
   }
 
   
