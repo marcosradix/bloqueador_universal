@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:bloqueador_universal/utils/share_preferences_util.dart';
 import 'package:flutter/material.dart';
-
 import '../button_widget.dart';
+
 
 class PageControl extends StatefulWidget {
   @override
@@ -13,7 +12,7 @@ class PageControl extends StatefulWidget {
 
 class _PageControlState extends State<PageControl> {
   Map<String, dynamic> configuration;
-Random random;
+
   @override
   void initState() {
     super.initState();
@@ -27,8 +26,9 @@ Random random;
           });
           });
   }
+
   Widget getTextWidgets(List<String> strings){
-    random =  Random();
+    Random random =  Random();
     List<Color> colors = [Colors.purple, Colors.green, Colors.red, Colors.green, Colors.blueGrey, Colors.black54, Colors.blue, Colors.amber];
     List<Widget> list =  List<Widget>();
     for(var i = 0; i < strings.length; i++){

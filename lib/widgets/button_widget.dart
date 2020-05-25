@@ -1,5 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+
 
 class CommandButton extends StatelessWidget {
   final String buttonName;
@@ -14,9 +17,21 @@ CommandButton(this.buttonName, this.buttonColor, this.acommand);
           textColor: Colors.white,
           color: buttonColor,
           onPressed: () {
+              Get.snackbar(
+               "Enviado", 
+               "Seu comando \"$acommand\" foi enviado",
+              icon: Icon(Icons.sms), 
+              shouldIconPulse: true,
+              snackPosition: SnackPosition.TOP,
+              animationDuration: Duration(milliseconds: 500),
+              barBlur: 20,
+              isDismissible: true,
+              duration: Duration(seconds: 3),
+            );
             print(acommand);
           },
           child: new Text(buttonName),
         ): Container();
   }
+
 }

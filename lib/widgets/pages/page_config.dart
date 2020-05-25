@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bloqueador_universal/utils/share_preferences_util.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PageConfig extends StatefulWidget {
   @override
@@ -89,7 +90,6 @@ class _PageConfigState extends State<PageConfig> {
                     }
                   }else{
                      configuration[_nomeBotao.text] = _comando.text;
-
                   }
                     _nomeBotao.clear();
                     _comando.clear();
@@ -140,6 +140,17 @@ class _PageConfigState extends State<PageConfig> {
                       _nomeBotao.clear();
                       _comando.clear();
                       _telefone.clear();
+                      Get.snackbar(
+                      "Salvo", 
+                      "Dados salvos com sucesso",
+                      icon: Icon(Icons.save), 
+                      shouldIconPulse: true,
+                      snackPosition: SnackPosition.TOP,
+                      animationDuration: Duration(milliseconds: 500),
+                      barBlur: 20,
+                      isDismissible: true,
+                      duration: Duration(seconds: 3),
+                    );
                     });
                   });
                 },
