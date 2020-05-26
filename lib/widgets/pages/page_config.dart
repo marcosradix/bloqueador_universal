@@ -112,7 +112,7 @@ class _PageConfigState extends State<PageConfig> {
                     onPressed: () {
                       if (isSwitched) {
                         if (_telefone.text.isNotEmpty) {
-                          configuration["telefone"] = _telefone.text;
+                          configuration["telefone"] = _telefone.text.trim();
                         }
 
                         SharedPreferencesUtil.load().then((data) {
@@ -131,7 +131,7 @@ class _PageConfigState extends State<PageConfig> {
                           });
                         });
                       } else {
-                        configuration["telefone"] = _telefone.text;
+                        configuration["telefone"] = _telefone.text.trim();
                       }
                       SharedPreferencesUtil.remove();
                       SharedPreferencesUtil.create(jsonEncode(configuration))
@@ -169,7 +169,17 @@ class _PageConfigState extends State<PageConfig> {
                   width: double.infinity,
                   child: RaisedButton(
                     onPressed: () {
-                      SharedPreferencesUtil.remove();
+                        Get.defaultDialog(
+                        textConfirm: "Sim",
+                        textCancel: "Não",
+                        title: "Alerta",
+                        confirmTextColor: Colors.white,
+                        cancelTextColor: Colors.red,
+                        onConfirm: () {
+                          Navigator.of(context).pop();
+                          SharedPreferencesUtil.remove();
+                        },
+                        middleText: "Isso vai apagar toda a sua configuração, tem certeza?");
                       //SharedPreferencesUtil.load().then((value) => print(value));
                     },
                     textColor: Colors.white,

@@ -59,7 +59,7 @@ class _DashBoardState extends State<DashBoard> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             InkWell(
-                              child: Icon(Icons.menu, color: Colors.black54),
+                              child: Icon(Icons.menu, color: Colors.black54, size: 37,),
                               onTap: () {
                                 setState(() {
                                   if (_.isCollapsed)

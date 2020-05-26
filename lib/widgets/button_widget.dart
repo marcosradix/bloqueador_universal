@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
+
 
 import 'package:bloqueador_universal/utils/share_preferences_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sendsms/sendsms.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CommandButton extends StatefulWidget {
   final String buttonName;
@@ -19,9 +21,18 @@ class CommandButton extends StatefulWidget {
 class _CommandButtonState extends State<CommandButton> {
   Map<String, dynamic> configuration;
   _sendSms(String phoneNumber, String message) async {
-    await Sendsms.onGetPermission();
-    if (await Sendsms.hasPermission()) {
-      await Sendsms.onSendSMS(phoneNumber, message);
+     String url;
+      if(Platform.isAndroid){
+        url ='sms:$phoneNumber?body=$message';
+    } 
+      else if(Platform.isIOS){
+        url ='sms:$phoneNumber&body=$message';
+    }
+    print(url);
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Erro na url $url';
     }
   }
 
@@ -44,8 +55,8 @@ class _CommandButtonState extends State<CommandButton> {
             padding: const EdgeInsets.all(8.0),
             textColor: Colors.white,
             color: widget.buttonColor,
-            onPressed: () {
-              _sendSms(configuration['telefone'], widget.acommand);
+            onPressed: () async{
+             await _sendSms(configuration['telefone'], widget.acommand);
               Get.snackbar(
                 "Enviado",
                 "Seu comando \"${widget.acommand}\" foi enviado",
@@ -57,7 +68,7 @@ class _CommandButtonState extends State<CommandButton> {
                 isDismissible: true,
                 duration: Duration(seconds: 3),
               );
-              print(widget.acommand);
+              //print(widget.acommand);
             },
             child: new Text(widget.buttonName),
           )
