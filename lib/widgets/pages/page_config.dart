@@ -94,6 +94,18 @@ class _PageConfigState extends State<PageConfig> {
                       }
                       _nomeBotao.clear();
                       _comando.clear();
+                      Get.snackbar(
+                            "Adicionado",
+                            "Essa configuração precisa ser salva",
+                            icon: Icon(Icons.save),
+                            shouldIconPulse: true,
+                            snackPosition: SnackPosition.BOTTOM,
+                            animationDuration: Duration(milliseconds: 500),
+                            barBlur: 20,
+                            isDismissible: true,
+                            backgroundColor: Colors.blueGrey,
+                            duration: Duration(seconds: 3),
+                          );
                     },
                     textColor: Colors.white,
                     color: Colors.amber,
