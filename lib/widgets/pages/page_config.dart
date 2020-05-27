@@ -112,7 +112,7 @@ class _PageConfigState extends State<PageConfig> {
                     onPressed: () {
                       if (isSwitched) {
                         if (_telefone.text.isNotEmpty) {
-                          configuration["telefone"] = _telefone.text.trim();
+                          configuration["telefone"] = _telefone.text.replaceAll(new RegExp(r"\s+\b|\b\s"), "");
                         }
 
                         SharedPreferencesUtil.load().then((data) {
@@ -131,7 +131,7 @@ class _PageConfigState extends State<PageConfig> {
                           });
                         });
                       } else {
-                        configuration["telefone"] = _telefone.text.trim();
+                        configuration["telefone"] = _telefone.text.replaceAll(new RegExp(r"\s+\b|\b\s"), "");
                       }
                       SharedPreferencesUtil.remove();
                       SharedPreferencesUtil.create(jsonEncode(configuration))
